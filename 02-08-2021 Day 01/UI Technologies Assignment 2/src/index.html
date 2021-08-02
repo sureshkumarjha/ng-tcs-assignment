@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 01 Assignment 2</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../src/css/main.css" >
+</head>
+<body>
+    <div class="background-container container d-flex justify-content-center align-items-center">
+    
+    <div class="border bg-white rounded p-4 mt-5 mb-5 form-width">
+
+        <div class="mb-3">
+            <label for="value1" class="form-label">Enter first number</label>
+            <input type="number" class="form-control" onchange="resetError()" id="value1" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="value2" class="form-label">Enter second number</label>
+            <input type="number" class="form-control" onchange="resetError()" id="value2" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="opt" class="form-label">Select</label>
+            <select id="opt" class="form-control">
+                <option selected value="+">Addition</option>
+                <option value="-">Subtraction</option>
+                <option value="*">Multiplication</option>
+                <option value="/">Division</option>
+                <option value="%">Modulus</option>
+            </select>
+          </div>     
+          
+          <div class="mb-3">
+            <label for="ans" class="form-label">Output</label>
+            <input type="text" class="form-control" id="ans" readonly >
+          </div>
+          <div class="mb-3 error">
+            <p id="error"></p>
+          </div>          
+          <div class="mb-3">
+              <button type="button" id="compute" class="btn btn-primary">Compute</button>
+          </div>
+        
+    </div>
+
+    </div>
+
+
+    
+    <!-- jQuery -->
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    
+    <!-- Custom External JavaScript -->
+    <script src="./js/main.js"></script>
+</body>
+</html>
