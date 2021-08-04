@@ -1,0 +1,23 @@
+<h2 class="pt-3">Notes</h2>
+<hr>
+<div class="d-flex flex-row flex-wrap justify-content-center">
+    <div *ngFor="let note of notes">
+        <app-note-item [note]="note" (noteClick) = "setNoteDetails($event)"></app-note-item>
+    </div>
+</div>
+<hr>
+
+<div>
+    <div *ngIf="noteDetails !== undefined; else noNoteSelected">
+        <app-note-detail [noteDetails] = "noteDetails"></app-note-detail>
+    </div>
+    <ng-template #noNoteSelected>
+        <div class="text-center mb-3 text-muted">
+            <br>
+            <br>
+            <br>
+            <h4>No Note selected</h4>
+        </div>
+        
+    </ng-template>
+</div>
