@@ -12,7 +12,7 @@ export const NOTE_DATA: Note[] = [
         body: "to buy the pulses" 
     },
     { 
-        id: 2, 
+        id: 3, 
         title: "insurance", 
         body: "to renew cr insurance" 
     },

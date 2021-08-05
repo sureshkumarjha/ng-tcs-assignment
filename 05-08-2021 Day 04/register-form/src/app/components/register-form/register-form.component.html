@@ -1,0 +1,253 @@
+
+<div class="background-container container d-flex justify-content-center align-items-center">
+<div>
+    <div [hidden]="!isSubmit" class=" mt-3 alert alert-success ">
+        Form Submitted successfully.
+    </div>
+
+    <div class="border bg-white rounded p-4 mt-3 mb-5 form-width">
+        <form class=" pl-2 pr-2 row g-1" >
+
+            <div class="col-md-3 mb-2">
+                <label for="inputFname" class="form-label font-weight-bold">Title</label>
+                <select class="form-control form-select" [formControl]="title">
+                    <option selected value="Mr">Mr</option>
+                    <option value="Ms">Ms</option>
+                    <option value="Dr">Dr</option>
+                </select>
+            </div>
+
+            <div class="col-md-5 mb-2">
+                <label for="inputFname" class="form-label font-weight-bold">First Name</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    [ngClass]="{ 
+                        'is-invalid' : (firstName.hasError('required') && firstName.touched ),
+                        'is-valid' : firstName.valid  
+                        }"
+                    [formControl]="firstName" >
+                <div [hidden]="!(firstName.hasError('required')) || firstName.untouched" class=" mt-2 alert alert-danger">
+                    Please provide First Name.
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-2">
+                <label for="inputLname" class="form-label font-weight-bold">Last Name</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    [ngClass]="{ 
+                        'is-invalid' : (lastName.hasError('required') && lastName.touched ),
+                        'is-valid' : lastName.valid  
+                        }"
+                    [formControl]="lastName" >
+                <div [hidden]="!(lastName.hasError('required')) || lastName.untouched" class=" mt-2 alert alert-danger">
+                    Please provide Last Name.
+                </div>
+            </div>
+
+            <div class="col-12 mb-2">
+              <label for="inputAddress" class="form-label font-weight-bold">Address</label>
+              <input 
+                    type="text" 
+                    class="form-control" 
+                    [ngClass]="{ 
+                        'is-invalid' : (address.hasError('required') && address.touched ),
+                        'is-valid' : address.valid  
+                        }"
+                    [formControl]="address" >
+                <div [hidden]="!(address.hasError('required')) || address.untouched" class=" mt-2 alert alert-danger">
+                Please provide Address.
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="inputCity" class="form-label font-weight-bold">City</label>
+              <input 
+                    type="text" 
+                    class="form-control" 
+                    [ngClass]="{ 
+                        'is-invalid' : (city.hasError('required') && city.touched ),
+                        'is-valid' : city.valid  
+                        }"
+                    [formControl]="city" >
+                <div [hidden]="!(city.hasError('required')) || city.untouched" class=" mt-2 alert alert-danger">
+                Please provide City.
+            </div>
+            </div>
+
+            <div class="col-md-6 mb-2">
+                <label for="inputState" class="form-label font-weight-bold">State</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    [ngClass]="{ 
+                        'is-invalid' : (state.hasError('required') && state.touched ),
+                        'is-valid' : state.valid  
+                        }"
+                    [formControl]="state" >
+                <div [hidden]="!(state.hasError('required')) || state.untouched" class=" mt-2 alert alert-danger">
+                    Please provide State.
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <label for="inputZip" class="form-label font-weight-bold">Postal Code</label>
+              <input 
+                    type="tel"
+                    pattern="[0-9]{6}"
+                    class="form-control" 
+                    maxlength="6"
+                    [ngClass]="{ 
+                        'is-invalid' : (postalCode.hasError('required') && postalCode.touched ),
+                        'is-valid' : postalCode.valid  
+                        }"
+                    [formControl]="postalCode" >
+                <div [hidden]="!(postalCode.hasError('required')) || postalCode.untouched" class=" mt-2 alert alert-danger">
+                    Please provide Postal Code.
+                </div>
+                <div [hidden]="!(postalCode.hasError('notSixDigits') && !(postalCode.hasError('required')))  || postalCode.untouched" class=" mt-2 alert alert-danger">
+                    Please provide 6 digit valid Postal Code.
+                </div>
+                <div [hidden]="!(postalCode.hasError('notDigit') && !(postalCode.hasError('required')))" class=" mt-2 alert alert-danger">
+                    Please provide only digits.
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-2">
+                <label for="inputCountry" class="form-label font-weight-bold">Country</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    [ngClass]="{ 
+                        'is-invalid' : (country.hasError('required') && country.touched ),
+                        'is-valid' : country.valid  
+                        }"
+                    [formControl]="country" >
+                <div [hidden]="!(country.hasError('required')) || country.untouched" class=" mt-2 alert alert-danger">
+                    Please provide Country.
+                </div> 
+            </div> 
+
+            <div class="col-md-6 mb-2">
+                <label for="inputPhone" class="form-label font-weight-bold">Phone</label>
+                <input 
+                    type="tel"
+                    maxlength="10"
+                    class="form-control" 
+                    [ngClass]="{ 
+                        'is-invalid' : (phone.hasError('required') && phone.touched ),
+                        'is-valid' : phone.valid  
+                        }"
+                    [formControl]="phone" >
+                <div [hidden]="!(phone.hasError('required')) || phone.untouched" class=" mt-2 alert alert-danger">
+                    Please provide Phone Number.
+                </div>
+                <div [hidden]="!(phone.hasError('notSixDigits') && !(phone.hasError('required')))  || phone.untouched" class=" mt-2 alert alert-danger">
+                    Please provide 10 digit valid Phone Number.
+                </div>
+                <div [hidden]="!(phone.hasError('notDigit') && !(phone.hasError('required')))" class=" mt-2 alert alert-danger">
+                    Please provide only digits.
+                </div>
+            </div>   
+
+            <div class="col-md-6 mb-2">
+                <label for="inputFax" class="form-label font-weight-bold">Fax</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    [ngClass]="{ 
+                        'is-invalid' : (fax.hasError('required') && fax.touched ),
+                        'is-valid' : fax.valid  
+                        }"
+                    [formControl]="fax" >
+                <div [hidden]="!(fax.hasError('required')) || fax.untouched" class=" mt-2 alert alert-danger">
+                    Please provide Fax.
+                </div>
+            </div>
+            
+            <div class="col-12 mb-2">
+                <label for="inputEmail4" class="form-label font-weight-bold">Email</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    [ngClass]="{ 
+                        'is-invalid' : (email.hasError('required') && email.touched ),
+                        'is-valid' : email.valid  
+                        }"
+                    [formControl]="email" >
+                <div [hidden]="!(email.hasError('required')) || email.untouched" class=" mt-2 alert alert-danger">
+                    Please provide Email address.
+                </div>
+                <div [hidden]="!(email.hasError('email') && !email.hasError('required'))  || email.untouched" class=" mt-2 alert alert-danger">
+                    Please provide valid Email.
+                </div>
+            </div>
+
+            <div class="col-12 mb-2">
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-3 col-form-label font-weight-bold">Payment by</label>
+                    <div class="col-sm-9 mt-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="PayPal" [formControl]="paymentBy"  >
+                            <label class="form-check-label" style="color: black;" for="gridRadios1">
+                            PayPal
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="Manual Pay on Arrival" [formControl]="paymentBy" >
+                            <label class="form-check-label" style="color: black;" for="gridRadios2">
+                            Manual Pay on Arrival
+                            </label>
+                        </div>
+                        <div class="form-check disabled">
+                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="Credit Card" [formControl]="paymentBy" >
+                            <label class="form-check-label" style="color: black;" for="gridRadios3">
+                            Credit Card
+                            </label>
+                            <div [hidden]="!(paymentBy.hasError('required')) || paymentBy.untouched" class=" mt-2 alert alert-danger">
+                                Please select Payment mode.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-2">
+                <div class="form-group row">
+                    <label for="inputSuggestion" class="col-sm-3 col-form-label font-weight-bold">Any additional requests</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control"
+                        [ngClass]="{ 
+                            'is-invalid' : (additionalRequests.hasError('required') && additionalRequests.touched ),
+                            'is-valid' : additionalRequests.valid  
+                            }"
+                         id="inputSuggestion" [formControl]="additionalRequests"></textarea>
+                        <div [hidden]="!(additionalRequests.hasError('required')) || additionalRequests.untouched" class=" mt-2 alert alert-danger">
+                            Please provide additional requests.
+                        </div>
+                    </div>
+                </div>   
+            </div>        
+
+            <div class="col-12 mb-2 d-flex justify-content-center mt-2">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck" [formControl]="termsAndConditions">
+                <label class="form-check-label" for="gridCheck" style="color: black;">
+                  I agree with the <a href="#">Terms & Conditions</a>.
+                </label>
+                <div [hidden]="!(termsAndConditions.hasError('notAccepted') && termsAndConditions.touched)" class=" mt-2 alert alert-danger">
+                    Please agree with T&C.
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mb-2 text-center">
+              <button [hidden]='isSubmit' type="button" (click)="onConfirmCheckout()" class=" mt-4 btn btn-primary">Confirm & Checkout</button>
+              <button type="button" [hidden]='!isSubmit' (click)="onReset()" class=" mt-4 btn btn-secondary">Reset</button>
+            </div>
+          </form>
+      </div>
+    </div>
+    </div>
