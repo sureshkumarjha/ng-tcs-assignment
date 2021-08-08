@@ -6,7 +6,7 @@ import { Directive, ElementRef } from '@angular/core';
 export class CursorStyleDirective {
 
   constructor(private element : ElementRef) {
-
+      element.nativeElement.style.cursor = "pointer";
    }
 
 }

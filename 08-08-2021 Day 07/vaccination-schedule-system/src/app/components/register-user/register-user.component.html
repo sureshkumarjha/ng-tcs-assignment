@@ -1,1 +1,245 @@
-<p>register-user works!</p>
+
+<div class="background-container container d-flex justify-content-center align-items-center">
+    <div>
+        <div [hidden]="!isSubmit" class=" mt-3 alert alert-success ">
+            Form Submitted successfully.
+        </div>
+    
+        <div class="border bg-white rounded p-4 mt-4 mb-5 form-width">
+            <div class="text-center mb-3" style="height: 240px;">
+                <img [src] = "profile" width="240px" height="240px" loading="eager" class="img-thumbnail border-100 " alt="profile picture">
+              </div>
+            <form class=" pl-2 pr-2 row g-1" >
+                <div class="col-md-5 mb-2">
+                    <label for="inputFname" class="form-label font-weight-bold">First Name<span style="color: red;">*</span></label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="{ 
+                            'is-invalid' : (firstName.hasError('required') && firstName.touched ),
+                            'is-valid' : firstName.valid  
+                            }"
+                        [formControl]="firstName"
+                        (change)="onUpdateProfile($event)"
+                        >
+                    <div [hidden]="!(firstName.hasError('required')) || firstName.untouched" class=" mt-2 alert alert-danger">
+                        Please provide First Name.
+                    </div>
+                </div>
+    
+                <div class="col-md-4 mb-2">
+                    <label for="inputLname" class="form-label font-weight-bold">Last Name<span style="color: red;">*</span></label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="{ 
+                            'is-invalid' : (lastName.hasError('required') && lastName.touched ),
+                            'is-valid' : lastName.valid  
+                            }"
+                        [formControl]="lastName" >
+                    <div [hidden]="!(lastName.hasError('required')) || lastName.untouched" class=" mt-2 alert alert-danger">
+                        Please provide Last Name.
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-2">
+                    <label for="inputFname" class="form-label font-weight-bold">Gender<span style="color: red;">*</span></label>
+                    <select 
+                    class="form-control form-select" 
+                    [ngClass]="{ 
+                        'is-invalid' : (gender.hasError('required') && gender.touched ),
+                        'is-valid' : gender.valid  
+                        }"
+                    [formControl]="gender"
+                    >
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div [hidden]="!(gender.hasError('required')) || gender.untouched" class=" mt-2 alert alert-danger">
+                        Please provide Gender.
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <label for="inputLname" class="form-label font-weight-bold">Date of Birth<span style="color: red;">*</span></label>
+                    <input 
+                        type="date" 
+                        class="form-control" 
+                        [ngClass]="{ 
+                            'is-invalid' : (dob.hasError('required') && dob.touched ),
+                            'is-valid' : dob.valid  
+                            }"
+                        [formControl]="dob" >
+                    <div [hidden]="!(dob.hasError('required')) || dob.untouched" class=" mt-2 alert alert-danger">
+                        Please provide DoB.
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <label for="inputLname" class="form-label font-weight-bold">Place of Birth<span style="color: red;">*</span></label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="{ 
+                            'is-invalid' : (placeOfBirth.hasError('required') && placeOfBirth.touched ),
+                            'is-valid' : placeOfBirth.valid  
+                            }"
+                        [formControl]="placeOfBirth" >
+                    <div [hidden]="!(placeOfBirth.hasError('required')) || placeOfBirth.untouched" class=" mt-2 alert alert-danger">
+                        Please provide Place of Birth.
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                    <label for="inputFname" class="form-label font-weight-bold">Blood Group<span style="color: red;">*</span></label>
+                    <select 
+                    class="form-control form-select" 
+                    [ngClass]="{ 
+                        'is-invalid' : (bloodGroup.hasError('required') && bloodGroup.touched ),
+                        'is-valid' : bloodGroup.valid  
+                        }"
+                    [formControl]="bloodGroup"
+                    >
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div [hidden]="!(bloodGroup.hasError('required')) || bloodGroup.untouched" class=" mt-2 alert alert-danger">
+                        Please provide Blood Group.
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                    <label for="inputLname" class="form-label font-weight-bold">Height<span style="color: red;">*</span></label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        [ngClass]="{ 
+                            'is-invalid' : (height.hasError('required') && height.touched ),
+                            'is-valid' : height.valid  
+                            }"
+                        [formControl]="height" >
+                    <div [hidden]="!(height.hasError('required')) || height.untouched" class=" mt-2 alert alert-danger">
+                        Please provide Height.
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                    <label for="inputLname" class="form-label font-weight-bold">Weight<span style="color: red;">*</span></label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        [ngClass]="{ 
+                            'is-invalid' : (weight.hasError('required') && weight.touched ),
+                            'is-valid' : weight.valid  
+                            }"
+                        [formControl]="weight" >
+                    <div [hidden]="!(weight.hasError('required')) || weight.untouched" class=" mt-2 alert alert-danger">
+                        Please provide Weight.
+                    </div>
+                </div>
+
+
+                
+    
+                <div class="col-12 mb-2">
+                  <label for="inputAddress" class="form-label font-weight-bold">Address</label>
+                  <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="{ 
+                            'is-invalid' : (address.hasError('required') && address.touched )
+                            }"
+                        [formControl]="address" >
+                    <div [hidden]="!(address.hasError('required')) || address.untouched" class=" mt-2 alert alert-danger">
+                    Please provide Address.
+                    </div>
+                </div>
+    
+                <div class="col-md-6 mb-2">
+                    <label for="inputState" class="form-label font-weight-bold">State</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="{ 
+                            'is-invalid' : (state.hasError('required') && state.touched )
+                            }"
+                        [formControl]="state" >
+                    <div [hidden]="!(state.hasError('required')) || state.untouched" class=" mt-2 alert alert-danger">
+                        Please provide State.
+                    </div>
+                </div>
+    
+                <div class="col-md-6 mb-2">
+                  <label for="inputZip" class="form-label font-weight-bold">Postal Code</label>
+                  <input 
+                        type="tel"
+                        pattern="[0-9]{6}"
+                        class="form-control" 
+                        maxlength="6"
+                        [ngClass]="{ 
+                            'is-invalid' : (postalCode.hasError('required') && postalCode.touched ),
+                            'is-valid' : postalCode.valid  && postalCode.touched
+                            }"
+                        [formControl]="postalCode" >
+                    <div [hidden]="!(postalCode.hasError('required')) || postalCode.untouched" class=" mt-2 alert alert-danger">
+                        Please provide Postal Code.
+                    </div>
+                    <div [hidden]="!(postalCode.hasError('notSixDigits') && !(postalCode.hasError('required')))  || postalCode.untouched" class=" mt-2 alert alert-danger">
+                        Please provide 6 digit valid Postal Code.
+                    </div>
+                    <div [hidden]="!(postalCode.hasError('notDigit') && !(postalCode.hasError('required')))" class=" mt-2 alert alert-danger">
+                        Please provide only digits.
+                    </div>
+                </div>
+    
+                <div class="col-md-6 mb-2">
+                    <label for="inputPhone" class="form-label font-weight-bold">Phone<span style="color: red;">*</span></label>
+                    <input 
+                        type="tel"
+                        maxlength="10"
+                        class="form-control" 
+                        [ngClass]="{ 
+                            'is-invalid' : (phone.hasError('required') && phone.touched ),
+                            'is-valid' : phone.valid  
+                            }"
+                        [formControl]="phone" >
+                    <div [hidden]="!(phone.hasError('required')) || phone.untouched" class=" mt-2 alert alert-danger">
+                        Please provide Phone Number.
+                    </div>
+                    <div [hidden]="!(phone.hasError('notSixDigits') && !(phone.hasError('required')))  || phone.untouched" class=" mt-2 alert alert-danger">
+                        Please provide 10 digit valid Phone Number.
+                    </div>
+                    <div [hidden]="!(phone.hasError('notDigit') && !(phone.hasError('required')))" class=" mt-2 alert alert-danger">
+                        Please provide only digits.
+                    </div>
+                </div>   
+    
+                <div class="col-md-6 mb-2">
+                    <label for="inputEmail4" class="form-label font-weight-bold">Email</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="{ 
+                            'is-invalid' : (email.hasError('required') && email.touched ),
+                            'is-valid' : email.valid && email.touched
+                            }"
+                        [formControl]="email" >
+                    <div [hidden]="!(email.hasError('required')) || email.untouched" class=" mt-2 alert alert-danger">
+                        Please provide Email address.
+                    </div>
+                    <div [hidden]="!(email.hasError('email') && !email.hasError('required'))  || email.untouched" class=" mt-2 alert alert-danger">
+                        Please provide valid Email.
+                    </div>
+                </div>
+                
+    
+                <div class="col-12 mb-2 text-center">
+                  <button [hidden]='isSubmit' type="button" (click)="onConfirmCheckout()" class=" mt-4 btn btn-primary">Save</button>
+                  <button type="button" [hidden]='!isSubmit' (click)="onReset()" class=" mt-4 btn btn-secondary">Cancel</button>
+                </div>
+              </form>
+          </div>
+        </div>
+        </div>

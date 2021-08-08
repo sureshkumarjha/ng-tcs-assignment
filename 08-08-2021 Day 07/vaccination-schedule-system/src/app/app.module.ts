@@ -8,6 +8,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { RegisterUserComponent } from './components/register-user/register-user.component';
 import { AdministerVaccinationsComponent } from './components/administer-vaccinations/administer-vaccinations.component';
 import { CursorStyleDirective } from './directives/cursor-style.directive';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,8 @@ import { CursorStyleDirective } from './directives/cursor-style.directive';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(APP_ROUTES)
   ],
   providers: [],

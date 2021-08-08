@@ -1,26 +1,33 @@
 <div>
     <div class="container container-full-height">
-        <div class="text-center">
-            <img class="img-fluid" width="300px" src="/assets/images/undraw_medicine_b1ol.png" alt="">
-            <h3>Welcome!</h3>
+        <div class="text-center" style="height: 25vh;">
+            <img class="img-fluid h-100" src="/assets/images/undraw_medicine_b1ol.png" alt="">
+            
         </div>
+        <div>
+            <div class="text-center m-2">
+                <h3>Welcome!</h3>
+                <br>
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-md-6 col-sm-12">
-                <div class="card mt-2">
+                <div appCursorStyle class="card mt-2  grow" (click)="onClickAddPatient()">
                     <div class="card-body">
                         <h5 class="card-title text-center">Add Patient</h5>
-                        <div class="text-center">
-                          <img class="img-fluid" width="350px" src="/assets/images/undraw_doctors_hwty.png" alt="">
+                        <div class="text-center" style="height: 30vh;">
+                          <img class="img-fluid h-100" src="/assets/images/undraw_doctors_hwty.png" alt="">
                       </div>
                     </div>
                   </div>
             </div>
             <div class="col-md-6 col-sm-12">
-                <div class="card mt-2">
+                <div appCursorStyle class="card mt-2  grow" (click)="onClickAdministerVaccinations()">
                     <div class="card-body">
                       <h5 class="card-title text-center">Administer Vaccinations</h5>
-                      <div class="text-center">
-                        <img class="img-fluid" width="350px" src="/assets/images/undraw_Add_user_re_5oib.png" alt="">
+                      <div class="text-center" style="height: 30vh;">
+                        <img class="img-fluid h-100" src="/assets/images/undraw_Add_user_re_5oib.png" alt="">
                     </div>
                     </div>
                   </div>
