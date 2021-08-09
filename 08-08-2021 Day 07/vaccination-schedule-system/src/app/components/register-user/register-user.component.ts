@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { PatientsService } from 'src/app/services/patients-service.service';
 
 @Component({
   selector: 'app-register-user',
@@ -8,14 +9,14 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors,
 })
 export class RegisterUserComponent implements OnInit {
 
-  gender : FormControl = new FormControl("",[Validators.required]);
-  firstName : FormControl = new FormControl("",[Validators.required]);
-  lastName : FormControl = new FormControl("",[Validators.required]);
-  dob : FormControl = new FormControl("",[Validators.required]);
-  placeOfBirth : FormControl = new FormControl("",[Validators.required]);
-  bloodGroup : FormControl = new FormControl("",[Validators.required]);
-  height : FormControl = new FormControl("",[Validators.required]);
-  weight : FormControl = new FormControl("",[Validators.required]);
+  gender : FormControl = new FormControl("",[]);
+  firstName : FormControl = new FormControl("",[Validators.required,this.validateNotContainDigit]);
+  lastName : FormControl = new FormControl("",[Validators.required,this.validateNotContainDigit]);
+  dob : FormControl = new FormControl("",[Validators.required,this.validateDate]);
+  placeOfBirth : FormControl = new FormControl("",[this.validateNotContainDigit]);
+  bloodGroup : FormControl = new FormControl("",[]);
+  height : FormControl = new FormControl("",[Validators.min(0)]);
+  weight : FormControl = new FormControl("",[Validators.min(0)]);
   address : FormControl = new FormControl("");
   state : FormControl = new FormControl("");
   postalCode : FormControl = new FormControl("",[this.validatePostalCode]);
@@ -24,9 +25,54 @@ export class RegisterUserComponent implements OnInit {
   registerForm : FormGroup;
   profile : string;
   isSubmit : boolean;
+  isLoading : boolean;
+  errorMessage : string;
+  isError : boolean;
+  maxDate : string;
 
-  constructor() { 
+  stateList : Array<string> = [ "Andhra Pradesh",
+                "Arunachal Pradesh",
+                "Assam",
+                "Bihar",
+                "Chhattisgarh",
+                "Goa",
+                "Gujarat",
+                "Haryana",
+                "Himachal Pradesh",
+                "Jammu and Kashmir",
+                "Jharkhand",
+                "Karnataka",
+                "Kerala",
+                "Madhya Pradesh",
+                "Maharashtra",
+                "Manipur",
+                "Meghalaya",
+                "Mizoram",
+                "Nagaland",
+                "Odisha",
+                "Punjab",
+                "Rajasthan",
+                "Sikkim",
+                "Tamil Nadu",
+                "Telangana",
+                "Tripura",
+                "Uttarakhand",
+                "Uttar Pradesh",
+                "West Bengal",
+                "Andaman and Nicobar Islands",
+                "Chandigarh",
+                "Dadra and Nagar Haveli",
+                "Daman and Diu",
+                "Delhi",
+                "Lakshadweep",
+                "Puducherry"];
+
+  constructor(private patientService : PatientsService) { 
     this.isSubmit = false;
+    this.isLoading = false;
+    this.isError = false;
+    this.errorMessage = "";
+    this.maxDate = new Date().toISOString().split("T")[0];
 
     this.profile = 'https://robohash.org/'+ Math.random() +'.png'
 
@@ -47,14 +93,17 @@ export class RegisterUserComponent implements OnInit {
     })
   }
 
-  checkedTermAndCondition(control:AbstractControl): ValidationErrors | null {
-    let check = control.value;
-    return (check)? null : { notAccepted : true };
+  validateNotContainDigit(control:AbstractControl): ValidationErrors | null {
+    let check : string = control.value;
+    if(check === null){
+      return null;
+    }
+    const found = check.split("").some( r => "0123456789!@#$%^&*()_+[];',./{}|:\\\">?`~".split("").includes(r))
+    return found ? { containDigit : true } : null;
   }
 
   validatePostalCode(control:AbstractControl): ValidationErrors | null {
     let check : string | null = control.value;
-    console.log(check)
     if (check === null){
       return null;
     }
@@ -67,7 +116,6 @@ export class RegisterUserComponent implements OnInit {
 
   validatePhone(control:AbstractControl): ValidationErrors | null {
     let check : string | null = control.value;
-    console.log(check)
     if (check === null){
       return null;
     }
@@ -75,31 +123,75 @@ export class RegisterUserComponent implements OnInit {
     if(isNaN(+check)){
       return { notDigit : true }
     }
-    return ((check.toString()).length == 10)? null : { notSixDigits : true };
+    return ((check.toString()).length == 10  || check.toString().length == 0 )? null : { notTenDigits : true };
   }
 
-  onUpdateProfile(event:any){
-    if(event.target.value != undefined){
-    this.profile = 'https://robohash.org/'+event.target.value+'.png'
+  validateDate(control : AbstractControl): ValidationErrors | null{
+    if(control.value === null){
+      return null;
     }
+    let today = new Date();
+    let check = new Date(control.value);
+    if(check > today){
+      return { futureDate: true}
+    }    
+    return null;
   }
 
-  onConfirmCheckout(){
-    console.log(this.registerForm.value);
-    if(!this.registerForm.valid){
-      for(let control in this.registerForm.controls){
-        this.registerForm.controls[control].markAllAsTouched()
-      }
-    }else{
-      console.log("Submitted")
-      this.isSubmit = true;
-      this.registerForm.disable();
-      window.scroll(0, 0);
+  onUpdateProfile(event:any,flag:string){
+    this.isError = false;
+    if(flag==="firstName" && this.firstName.valid){
+    this.profile = 'https://robohash.org/'+event.target.value+" "+this.lastName.value+'.png';
+    return;
+    }
+ 
+    if(flag==="lastName" && this.lastName.valid){
+      this.profile = 'https://robohash.org/'+this.firstName.value+" "+event.target.value+'.png';
+      return;
     }
     
   }
 
-  onReset(){
+  onSave(){
+    this.isError = false;
+    this.isLoading = true;
+    if(!this.registerForm.valid){
+      for(let control in this.registerForm.controls){
+        this.registerForm.controls[control].markAllAsTouched();
+        this.isLoading = false;
+      }
+    }else{
+      let date = new Date();
+      if(this.patientService.checkUniqueName(this.registerForm.value.firstName+" "+this.registerForm.value.lastName)){
+        let req = this.patientService.addPatient({dateCreated: date.toDateString(),...this.registerForm.value});
+        req.subscribe({
+          next : (val)=>{
+            console.log("Submitted")
+            this.isSubmit = true;
+            this.registerForm.disable();
+            window.scroll(0, 0);
+            this.patientService.getPatients();
+            this.isLoading = false;
+          },
+          error: (error)=>{
+            console.log(error);
+            this.isLoading = false;
+            this.isError = true;
+            this.errorMessage = "Unable to connect to server at this moment."
+          }
+        }
+        )
+      }else{
+        console.log("Unique Name");
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = "Name is already registered."
+      }
+    }
+    
+  }
+
+  onCancel(){
     this.isSubmit = false;
     this.registerForm.enable();
     this.registerForm.reset();
@@ -107,6 +199,7 @@ export class RegisterUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.patientService.getPatients();
   }
 
 }

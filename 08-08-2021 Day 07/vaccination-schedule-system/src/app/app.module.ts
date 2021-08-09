@@ -9,6 +9,7 @@ import { RegisterUserComponent } from './components/register-user/register-user.
 import { AdministerVaccinationsComponent } from './components/administer-vaccinations/administer-vaccinations.component';
 import { CursorStyleDirective } from './directives/cursor-style.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(APP_ROUTES)
   ],

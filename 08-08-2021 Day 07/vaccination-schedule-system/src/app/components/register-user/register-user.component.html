@@ -2,14 +2,22 @@
 <div class="background-container container d-flex justify-content-center align-items-center">
     <div>
         <div [hidden]="!isSubmit" class=" mt-3 alert alert-success ">
-            Form Submitted successfully.
+            Form Submitted successfully. Redirecting to Homepage.
         </div>
     
-        <div class="border bg-white rounded p-4 mt-4 mb-5 form-width">
-            <div class="text-center mb-3" style="height: 240px;">
+        <div class="shadow-3 border bg-white rounded p-4 mt-4 mb-5 form-width">
+            <div>
+                <div class="text-center">
+                    <h4>Add Patient</h4>
+                </div>
+            </div>
+            <hr/>
+            <div class="text-center mb-4 mt-3" style="height: 240px;">
                 <img [src] = "profile" width="240px" height="240px" loading="eager" class="img-thumbnail border-100 " alt="profile picture">
-              </div>
-            <form class=" pl-2 pr-2 row g-1" >
+                <div id="emailHelp" class="form-text mb-4">Profile is based on First and Last Name.</div>
+            </div>
+            
+            <form class="mt-3 pl-2 pr-2 row g-1" >
                 <div class="col-md-5 mb-2">
                     <label for="inputFname" class="form-label font-weight-bold">First Name<span style="color: red;">*</span></label>
                     <input 
@@ -20,10 +28,13 @@
                             'is-valid' : firstName.valid  
                             }"
                         [formControl]="firstName"
-                        (change)="onUpdateProfile($event)"
+                        (change)="onUpdateProfile($event,'firstName')"
                         >
                     <div [hidden]="!(firstName.hasError('required')) || firstName.untouched" class=" mt-2 alert alert-danger">
                         Please provide First Name.
+                    </div>
+                    <div [hidden]="!(firstName.hasError('containDigit'))" class=" mt-2 alert alert-danger">
+                        First Name should not contain digits or symbols.
                     </div>
                 </div>
     
@@ -36,19 +47,23 @@
                             'is-invalid' : (lastName.hasError('required') && lastName.touched ),
                             'is-valid' : lastName.valid  
                             }"
-                        [formControl]="lastName" >
+                        [formControl]="lastName"
+                        (change)="onUpdateProfile($event,'lastName')" 
+                        >
                     <div [hidden]="!(lastName.hasError('required')) || lastName.untouched" class=" mt-2 alert alert-danger">
                         Please provide Last Name.
+                    </div>
+                    <div [hidden]="!(lastName.hasError('containDigit'))" class=" mt-2 alert alert-danger">
+                        Last Name should not contain digits or symbols.
                     </div>
                 </div>
 
                 <div class="col-md-3 mb-2">
-                    <label for="inputFname" class="form-label font-weight-bold">Gender<span style="color: red;">*</span></label>
+                    <label for="inputFname" class="form-label font-weight-bold">Gender</label>
                     <select 
                     class="form-control form-select" 
                     [ngClass]="{ 
-                        'is-invalid' : (gender.hasError('required') && gender.touched ),
-                        'is-valid' : gender.valid  
+                        'is-invalid' : (gender.hasError('required') && gender.touched )
                         }"
                     [formControl]="gender"
                     >
@@ -65,45 +80,55 @@
                     <label for="inputLname" class="form-label font-weight-bold">Date of Birth<span style="color: red;">*</span></label>
                     <input 
                         type="date" 
+                        [max] = "maxDate"
                         class="form-control" 
                         [ngClass]="{ 
-                            'is-invalid' : (dob.hasError('required') && dob.touched ),
+                            'is-invalid' : (!dob.valid && dob.touched ),
                             'is-valid' : dob.valid  
                             }"
                         [formControl]="dob" >
                     <div [hidden]="!(dob.hasError('required')) || dob.untouched" class=" mt-2 alert alert-danger">
                         Please provide DoB.
                     </div>
+                    <div [hidden]="!(dob.hasError('futureDate'))" class=" mt-2 alert alert-danger">
+                        DoB cannot be future date.
+                    </div>
                 </div>
 
                 <div class="col-md-6 mb-2">
-                    <label for="inputLname" class="form-label font-weight-bold">Place of Birth<span style="color: red;">*</span></label>
+                    <label for="inputLname" class="form-label font-weight-bold">Place of Birth</label>
                     <input 
                         type="text" 
                         class="form-control" 
                         [ngClass]="{ 
-                            'is-invalid' : (placeOfBirth.hasError('required') && placeOfBirth.touched ),
-                            'is-valid' : placeOfBirth.valid  
+                            'is-invalid' : (placeOfBirth.hasError('required') && placeOfBirth.touched ) 
                             }"
                         [formControl]="placeOfBirth" >
                     <div [hidden]="!(placeOfBirth.hasError('required')) || placeOfBirth.untouched" class=" mt-2 alert alert-danger">
                         Please provide Place of Birth.
                     </div>
+                    <div [hidden]="!(placeOfBirth.hasError('containDigit'))" class=" mt-2 alert alert-danger">
+                        Place of Birth should not contain digits or symbols.
+                    </div>
                 </div>
 
                 <div class="col-md-4 mb-2">
-                    <label for="inputFname" class="form-label font-weight-bold">Blood Group<span style="color: red;">*</span></label>
+                    <label for="inputFname" class="form-label font-weight-bold">Blood Group</label>
                     <select 
                     class="form-control form-select" 
                     [ngClass]="{ 
-                        'is-invalid' : (bloodGroup.hasError('required') && bloodGroup.touched ),
-                        'is-valid' : bloodGroup.valid  
+                        'is-invalid' : (bloodGroup.hasError('required') && bloodGroup.touched ) 
                         }"
                     [formControl]="bloodGroup"
                     >
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB">AB</option>
                     </select>
                     <div [hidden]="!(bloodGroup.hasError('required')) || bloodGroup.untouched" class=" mt-2 alert alert-danger">
                         Please provide Blood Group.
@@ -111,38 +136,35 @@
                 </div>
 
                 <div class="col-md-4 mb-2">
-                    <label for="inputLname" class="form-label font-weight-bold">Height<span style="color: red;">*</span></label>
+                    <label for="inputLname" class="form-label font-weight-bold">Height</label>
                     <input 
                         type="number" 
                         class="form-control" 
                         [ngClass]="{ 
-                            'is-invalid' : (height.hasError('required') && height.touched ),
-                            'is-valid' : height.valid  
+                            'is-invalid' : (height.hasError('min') && height.touched ) 
                             }"
-                        [formControl]="height" >
-                    <div [hidden]="!(height.hasError('required')) || height.untouched" class=" mt-2 alert alert-danger">
-                        Please provide Height.
+                        [formControl]="height"
+                        placeholder="in cms" >
+                    <div [hidden]="!(height.hasError('min'))" class=" mt-2 alert alert-danger">
+                        Please provide positive Height.
                     </div>
                 </div>
 
                 <div class="col-md-4 mb-2">
-                    <label for="inputLname" class="form-label font-weight-bold">Weight<span style="color: red;">*</span></label>
+                    <label for="inputLname" class="form-label font-weight-bold">Weight</label>
                     <input 
                         type="number" 
                         class="form-control" 
                         [ngClass]="{ 
-                            'is-invalid' : (weight.hasError('required') && weight.touched ),
-                            'is-valid' : weight.valid  
+                            'is-invalid' : (weight.hasError('min') && weight.touched ) 
                             }"
-                        [formControl]="weight" >
-                    <div [hidden]="!(weight.hasError('required')) || weight.untouched" class=" mt-2 alert alert-danger">
+                        [formControl]="weight"
+                        placeholder="in kg" >
+                    <div [hidden]="!(weight.hasError('min'))" class=" mt-2 alert alert-danger">
                         Please provide Weight.
                     </div>
                 </div>
 
-
-                
-    
                 <div class="col-12 mb-2">
                   <label for="inputAddress" class="form-label font-weight-bold">Address</label>
                   <input 
@@ -159,13 +181,14 @@
     
                 <div class="col-md-6 mb-2">
                     <label for="inputState" class="form-label font-weight-bold">State</label>
-                    <input 
-                        type="text" 
-                        class="form-control" 
+                    <select 
+                        class="form-control form-select" 
                         [ngClass]="{ 
                             'is-invalid' : (state.hasError('required') && state.touched )
                             }"
                         [formControl]="state" >
+                        <option *ngFor="let st of stateList" [value]="st">{{st}}</option>
+                        </select>
                     <div [hidden]="!(state.hasError('required')) || state.untouched" class=" mt-2 alert alert-danger">
                         Please provide State.
                     </div>
@@ -179,17 +202,13 @@
                         class="form-control" 
                         maxlength="6"
                         [ngClass]="{ 
-                            'is-invalid' : (postalCode.hasError('required') && postalCode.touched ),
-                            'is-valid' : postalCode.valid  && postalCode.touched
+                            'is-invalid' : (postalCode.hasError('required') && postalCode.touched )
                             }"
                         [formControl]="postalCode" >
-                    <div [hidden]="!(postalCode.hasError('required')) || postalCode.untouched" class=" mt-2 alert alert-danger">
-                        Please provide Postal Code.
-                    </div>
-                    <div [hidden]="!(postalCode.hasError('notSixDigits') && !(postalCode.hasError('required')))  || postalCode.untouched" class=" mt-2 alert alert-danger">
+                    <div [hidden]="!(postalCode.hasError('notSixDigits') && (postalCode.touched) )  || postalCode.untouched" class=" mt-2 alert alert-danger">
                         Please provide 6 digit valid Postal Code.
                     </div>
-                    <div [hidden]="!(postalCode.hasError('notDigit') && !(postalCode.hasError('required')))" class=" mt-2 alert alert-danger">
+                    <div [hidden]="!(postalCode.hasError('notDigit'))" class=" mt-2 alert alert-danger">
                         Please provide only digits.
                     </div>
                 </div>
@@ -208,7 +227,7 @@
                     <div [hidden]="!(phone.hasError('required')) || phone.untouched" class=" mt-2 alert alert-danger">
                         Please provide Phone Number.
                     </div>
-                    <div [hidden]="!(phone.hasError('notSixDigits') && !(phone.hasError('required')))  || phone.untouched" class=" mt-2 alert alert-danger">
+                    <div [hidden]="!(phone.hasError('notTenDigits') && !(phone.hasError('required')))  || phone.untouched" class=" mt-2 alert alert-danger">
                         Please provide 10 digit valid Phone Number.
                     </div>
                     <div [hidden]="!(phone.hasError('notDigit') && !(phone.hasError('required')))" class=" mt-2 alert alert-danger">
@@ -222,8 +241,7 @@
                         type="text" 
                         class="form-control" 
                         [ngClass]="{ 
-                            'is-invalid' : (email.hasError('required') && email.touched ),
-                            'is-valid' : email.valid && email.touched
+                            'is-invalid' : (email.hasError('required') && email.touched )
                             }"
                         [formControl]="email" >
                     <div [hidden]="!(email.hasError('required')) || email.untouched" class=" mt-2 alert alert-danger">
@@ -233,13 +251,17 @@
                         Please provide valid Email.
                     </div>
                 </div>
-                
+                <div [hidden]="!isError" class=" mt-2 alert alert-danger">
+                    {{errorMessage}}
+                </div>                
     
                 <div class="col-12 mb-2 text-center">
-                  <button [hidden]='isSubmit' type="button" (click)="onConfirmCheckout()" class=" mt-4 btn btn-primary">Save</button>
-                  <button type="button" [hidden]='!isSubmit' (click)="onReset()" class=" mt-4 btn btn-secondary">Cancel</button>
+                  <button  type="button" (click)="onSave()" class=" mt-4 btn btn-primary me-1">Save</button>
+                  <button type="button"  (click)="onCancel()" class="ms-1 mt-4 btn btn-secondary">Cancel</button>
                 </div>
               </form>
           </div>
         </div>
         </div>
+
+        <div id="cover-spin" [hidden]="!isLoading"></div>

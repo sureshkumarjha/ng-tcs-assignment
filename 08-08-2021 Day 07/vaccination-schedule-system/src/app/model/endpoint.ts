@@ -1,0 +1,1 @@
+export const END_POINT = "https://angular-test-70a6d-default-rtdb.firebaseio.com";
