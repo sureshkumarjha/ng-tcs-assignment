@@ -1,0 +1,162 @@
+<div class="accordion mt-3 mb-3" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button"
+        (click)="isFormShow = !isFormShow"
+         type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Add Vaccination
+        </button>
+      </h2>
+      <div id="collapseOne" 
+        class="accordion-collapse collapse"
+        aria-labelledby="headingOne" 
+        data-bs-parent="#accordionExample"
+        [ngClass]="{
+            'show': isFormShow
+        }"
+       >
+        <div class="accordion-body">
+            <div class="background-container container d-flex justify-content-center align-items-center">
+            <form class=" pl-2 pr-2 row g-1 form-width w-100" >
+                
+                <div class="col-md-12 mb-2">
+                    <label for="inputFname" class="form-label font-weight-bold">Name</label>
+                    <select 
+                    class="form-control form-select" 
+                    [ngClass]="{ 
+                        'is-invalid' : (name.hasError('required') && name.touched )
+                        }"
+                    [formControl]="name"
+                    (change)="onChangeName($event)"
+                    >
+                        <option *ngFor="let patient of patientsService.patients | keyvalue" [value]="patient.key" >{{getName(patient.key)}}</option>
+                    </select>
+                    <div [hidden]="!(name.hasError('required')) || name.untouched" class=" mt-2 alert alert-danger">
+                        Please provide Name.
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <label for="inputLname" class="form-label font-weight-bold">Date of Birth</label>
+                    <input 
+                        type="date" 
+                        [max] = "maxDate"
+                        class="form-control" 
+                        readonly
+                        [formControl]="dob" >
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <label for="inputFname" class="form-label font-weight-bold">Vaccination</label>
+                    <select 
+                    class="form-control form-select" 
+                    [attr.disabled]="(!name.valid)?'':null"
+                    [ngClass]="{ 
+                        'is-invalid' : (vaccination.hasError('required') && vaccination.touched )
+                        }"
+                    [formControl]="vaccination"
+                    >
+                        <option value = "1" >Dose 1</option>
+                        <option value = "2" >Dose 2</option>
+                    </select>
+                    <div [hidden]="!(vaccination.hasError('required')) || vaccination.untouched" class=" mt-2 alert alert-danger">
+                        Please select vaccination.
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <label for="inputLname" class="form-label font-weight-bold">Date administered</label>
+                    <input 
+                        type="date" 
+                        [max] = "maxDate"
+                        class="form-control" 
+                        [attr.disabled]="(!name.valid)?'':null"
+                        [ngClass]="{ 
+                            'is-invalid' : !(dateAdministered.valid) && dateAdministered.touched,
+                            'is-valid' : dateAdministered.valid && dateAdministered.touched
+                            }"
+                        [formControl]="dateAdministered" >
+                    <div [hidden]="!(dateAdministered.hasError('required')) || dateAdministered.untouched" class=" mt-2 alert alert-danger">
+                        Please provide Date administered.
+                    </div>
+                    <div [hidden]="!(dateAdministered.hasError('futureDate'))" class=" mt-2 alert alert-danger">
+                        Date administered cannot be future date.
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <label for="inputAddress" class="form-label font-weight-bold">Brand name</label>
+                    <input 
+                          type="text" 
+                          class="form-control" 
+                          [attr.disabled]="(!name.valid)?'':null"
+                          [ngClass]="{ 
+                              'is-invalid' : (brandName.hasError('required') && brandName.touched ),
+                              'is-valid' : brandName.valid && brandName.touched
+                              }"
+                          [formControl]="brandName" >
+                      <div [hidden]="!(brandName.hasError('required')) || brandName.untouched" class=" mt-2 alert alert-danger">
+                      Please provide Brand name.
+                      </div>
+                  </div>
+
+                  <div class="col-12 mb-2">
+                    <label for="inputAddress" class="form-label font-weight-bold">Given at</label>
+                    <div class="dropdown">
+                    <input 
+                          type="text" 
+                          class="form-control" 
+                          [attr.disabled]="(!name.valid)?'':null"
+                          [ngClass]="{ 
+                              'is-invalid' : (givenAt.hasError('required') && givenAt.touched ),
+                              'is-valid' : givenAt.valid && brandName.touched
+                              }"
+                          [formControl]="givenAt" >
+                          <div class="dropdown-menu w-100">
+                            <i class="hasNoResults">No matching results</i>
+                            <div class="list-autocomplete">
+                                <button type="button" class="dropdown-item">01 - Antigua &amp; Barbuda</button>
+                                <button type="button" class="dropdown-item">02 - Charlie Alpha</button>
+                                <button type="button" class="dropdown-item">03 - Bravo Alpha</button>
+                            </div>
+                        </div>
+                    </div>
+                      <div [hidden]="!(givenAt.hasError('required')) || givenAt.untouched" class=" mt-2 alert alert-danger">
+                      Please provide Hospital Name.
+                      </div>
+                  </div>
+
+                  <div [hidden]="!isError" class=" mt-2 alert alert-danger">
+                    {{errorMessage}}
+                  </div> 
+
+                  <div class="col-12 mb-2 text-center">
+                    <button  type="button" (click)="onSave()" class=" mt-4 btn btn-primary me-1">Save</button>
+                    <button type="button"  (click)="onReset()" class="ms-1 mt-4 btn btn-secondary">Cancel</button>
+                  </div>
+
+            </form>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="cover-spin" [hidden]="!isLoading"></div>
+
+  <div class="modal slideDown" [ngStyle]="{
+    'display': (isModalShow) ? 'block': 'none' ,
+    'background-color' : 'rgba(0,0,0,0.4)'
+    }"
+    tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="">
+            <div class="alert alert-primary modal-header" style="margin: 0; height: 5em;" role="alert">
+                <span class="mx-1">Vaccination details added successfully.</span>
+                <button type="button" (click)="isModalShow = false" class="btn-close mx-1" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>

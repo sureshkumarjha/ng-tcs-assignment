@@ -15,13 +15,17 @@ export class PatientsService {
       `${END_POINT}/patients.json`,patient)
   }
 
-  getPatients(){
+  loadPatients(){
     this.httpClient.get(`${END_POINT}/patients.json`).subscribe(
       (value : any)=> { 
         this.patients = value;
         console.log(value);
       } 
     )
+  }
+
+  getPatients(){
+    return this.patients;
   }
 
   checkUniqueName(check : string ){

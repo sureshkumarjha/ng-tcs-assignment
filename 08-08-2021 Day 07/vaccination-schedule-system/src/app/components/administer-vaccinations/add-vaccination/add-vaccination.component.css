@@ -14,6 +14,7 @@
     border: 2px solid #0d6efd;
 }
 
+
 #cover-spin {
     position:fixed;
     width:100%;
@@ -46,4 +47,23 @@
     border-radius:50%;
     -webkit-animation: spin .8s linear infinite;
     animation: spin .8s linear infinite;
+}
+
+.modal-dialog{
+    margin-top: 10em;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+  
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
 }

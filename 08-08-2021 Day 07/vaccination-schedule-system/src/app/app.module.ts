@@ -10,6 +10,8 @@ import { AdministerVaccinationsComponent } from './components/administer-vaccina
 import { CursorStyleDirective } from './directives/cursor-style.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AddVaccinationComponent } from './components/administer-vaccinations/add-vaccination/add-vaccination.component';
+import { VaccinationCardsComponent } from './components/administer-vaccinations/vaccination-cards/vaccination-cards.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { HttpClientModule } from '@angular/common/http';
     NavBarComponent,
     RegisterUserComponent,
     AdministerVaccinationsComponent,
-    CursorStyleDirective
+    CursorStyleDirective,
+    AddVaccinationComponent,
+    VaccinationCardsComponent
   ],
   imports: [
     BrowserModule,

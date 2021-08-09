@@ -1,10 +1,6 @@
 
 <div class="background-container container d-flex justify-content-center align-items-center">
     <div>
-        <div [hidden]="!isSubmit" class=" mt-3 alert alert-success ">
-            Form Submitted successfully. Redirecting to Homepage.
-        </div>
-    
         <div class="shadow-3 border bg-white rounded p-4 mt-4 mb-5 form-width">
             <div>
                 <div class="text-center">
@@ -137,6 +133,7 @@
 
                 <div class="col-md-4 mb-2">
                     <label for="inputLname" class="form-label font-weight-bold">Height</label>
+                    <div class="input-group mb-3">
                     <input 
                         type="number" 
                         class="form-control" 
@@ -144,7 +141,9 @@
                             'is-invalid' : (height.hasError('min') && height.touched ) 
                             }"
                         [formControl]="height"
-                        placeholder="in cms" >
+                         >
+                        <span class="input-group-text">cm</span>
+                    </div>
                     <div [hidden]="!(height.hasError('min'))" class=" mt-2 alert alert-danger">
                         Please provide positive Height.
                     </div>
@@ -152,6 +151,7 @@
 
                 <div class="col-md-4 mb-2">
                     <label for="inputLname" class="form-label font-weight-bold">Weight</label>
+                    <div class="input-group mb-3">
                     <input 
                         type="number" 
                         class="form-control" 
@@ -159,7 +159,9 @@
                             'is-invalid' : (weight.hasError('min') && weight.touched ) 
                             }"
                         [formControl]="weight"
-                        placeholder="in kg" >
+                        >
+                        <span class="input-group-text">kg</span>
+                    </div>
                     <div [hidden]="!(weight.hasError('min'))" class=" mt-2 alert alert-danger">
                         Please provide Weight.
                     </div>

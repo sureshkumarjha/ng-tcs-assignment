@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ComponentCommunicationService } from 'src/app/services/component-communication.service';
 import { PatientsService } from 'src/app/services/patients-service.service';
 
 @Component({
@@ -67,7 +69,11 @@ export class RegisterUserComponent implements OnInit {
                 "Lakshadweep",
                 "Puducherry"];
 
-  constructor(private patientService : PatientsService) { 
+  constructor(
+    private patientService : PatientsService,
+    private router : Router,
+    private componentCommunicationService :ComponentCommunicationService
+    ) { 
     this.isSubmit = false;
     this.isLoading = false;
     this.isError = false;
@@ -152,6 +158,13 @@ export class RegisterUserComponent implements OnInit {
     
   }
 
+  redirectToHome(msg:any){
+    if(msg !== null){
+      this.componentCommunicationService.putMessage(msg);
+    }
+    this.router.navigate(['home']);
+  }
+
   onSave(){
     this.isError = false;
     this.isLoading = true;
@@ -170,8 +183,14 @@ export class RegisterUserComponent implements OnInit {
             this.isSubmit = true;
             this.registerForm.disable();
             window.scroll(0, 0);
-            this.patientService.getPatients();
             this.isLoading = false;
+            this.redirectToHome(    {
+              to:"HomeComponent",
+              from:"RegisterUserComponent",
+              message:{
+                value:"Patient added successfully. Enter vaccination details in Administer vaccination"
+              }
+            })
           },
           error: (error)=>{
             console.log(error);
@@ -182,10 +201,9 @@ export class RegisterUserComponent implements OnInit {
         }
         )
       }else{
-        console.log("Unique Name");
         this.isLoading = false;
         this.isError = true;
-        this.errorMessage = "Name is already registered."
+        this.errorMessage = "Patient Name is already registered."
       }
     }
     
@@ -195,11 +213,11 @@ export class RegisterUserComponent implements OnInit {
     this.isSubmit = false;
     this.registerForm.enable();
     this.registerForm.reset();
-    window.scroll(0, 0);
+    this.redirectToHome(null);
   }
 
   ngOnInit(): void {
-    this.patientService.getPatients();
+    this.patientService.loadPatients();
   }
 
 }
