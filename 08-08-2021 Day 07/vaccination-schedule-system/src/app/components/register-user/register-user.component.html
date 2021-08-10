@@ -216,14 +216,13 @@
                 </div>
     
                 <div class="col-md-6 mb-2">
-                    <label for="inputPhone" class="form-label font-weight-bold">Phone<span style="color: red;">*</span></label>
+                    <label for="inputPhone" class="form-label font-weight-bold">Phone</label>
                     <input 
                         type="tel"
                         maxlength="10"
                         class="form-control" 
                         [ngClass]="{ 
-                            'is-invalid' : (phone.hasError('required') && phone.touched ),
-                            'is-valid' : phone.valid  
+                            'is-invalid' : (phone.hasError('required') && phone.touched )
                             }"
                         [formControl]="phone" >
                     <div [hidden]="!(phone.hasError('required')) || phone.untouched" class=" mt-2 alert alert-danger">
@@ -267,3 +266,5 @@
         </div>
 
         <div id="cover-spin" [hidden]="!isLoading"></div>
+
+        <div id="cover-spin" [hidden]="!patientService.isLoadingData"></div>

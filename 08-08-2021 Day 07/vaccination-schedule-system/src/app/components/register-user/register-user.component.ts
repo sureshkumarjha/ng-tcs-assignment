@@ -22,7 +22,7 @@ export class RegisterUserComponent implements OnInit {
   address : FormControl = new FormControl("");
   state : FormControl = new FormControl("");
   postalCode : FormControl = new FormControl("",[this.validatePostalCode]);
-  phone: FormControl = new FormControl("",[Validators.required,this.validatePhone]);
+  phone: FormControl = new FormControl("",[this.validatePhone]);
   email: FormControl = new FormControl("",[Validators.email]);
   registerForm : FormGroup;
   profile : string;
@@ -70,7 +70,7 @@ export class RegisterUserComponent implements OnInit {
                 "Puducherry"];
 
   constructor(
-    private patientService : PatientsService,
+    public patientService : PatientsService,
     private router : Router,
     private componentCommunicationService :ComponentCommunicationService
     ) { 

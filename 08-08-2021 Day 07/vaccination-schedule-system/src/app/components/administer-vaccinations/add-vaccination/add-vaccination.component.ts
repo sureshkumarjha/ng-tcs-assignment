@@ -24,6 +24,8 @@ export class AddVaccinationComponent implements OnInit {
   isError : boolean;
   isFormShow : boolean;
   isModalShow : boolean;
+  autoCompleteShow : boolean;
+  givenAtAutoComplete : Array<string>;
   
   constructor(
     private formBuilder : FormBuilder,
@@ -36,7 +38,9 @@ export class AddVaccinationComponent implements OnInit {
      this.isError = false;
      this.isFormShow = false;
      this.isModalShow = false;
+     this.autoCompleteShow = false;
      this.errorMessage = "";
+     this.givenAtAutoComplete = [];
 
      this.addVaccinationForm = new FormBuilder().group({
        patientId : this.name,
@@ -64,24 +68,60 @@ export class AddVaccinationComponent implements OnInit {
       }
       let today = new Date();
       let check = new Date(control.value);
+
       if(check > today){
         return { futureDate: true}
-      }    
+      }
       return null;
+    }
+
+    checkValidDateofSecondDose(){
+      let check = new Date(this.dateAdministered.value);
+      if(this.vaccination.value === '2' ){
+        let dose1 = new Date(this.administerVaccinationsService.patientsVaccinationDetails[this.name.value]['1'].dateAdministered)
+        if( dose1 > check ){
+          this.isError = true;
+          this.errorMessage = "Second dose Date administer cannot be before First dose date."
+          return false;
+        }
+      }
+      return true;
     }
 
     onChangeName(event : any){
       console.log(event.target.value);
-      this.dob.setValue(this.patientsService.patients[event.target.value].dob)
+      this.vaccination.reset();
+      this.dateAdministered.reset();
+      this.brandName.reset();
+      this.givenAt.reset();
+      this.dob.setValue(this.administerVaccinationsService.patientsVaccinationDetails[event.target.value].dob)
     }
 
     getName(patientKey:any){
-      return this.patientsService.patients[patientKey].firstName + " " + this.patientsService.patients[patientKey].lastName
+      return this.administerVaccinationsService.patientsVaccinationDetails[patientKey].firstName + " " + this.administerVaccinationsService.patientsVaccinationDetails[patientKey].lastName
+    }
+
+    onChangeGivenAt(event : any){
+      this.autoCompleteShow=true
+      this.givenAtAutoComplete = this.administerVaccinationsService.hospitalList.filter(
+        (word : any) => {
+          return word.toLowerCase().startsWith(event.target.value.toLowerCase())
+      } );
+      if(this.givenAtAutoComplete.length === 0){
+        this.autoCompleteShow = false;
+      }
+    }
+
+    onClickAutoComplete(value:string){
+      this.givenAt.setValue(value);
+      this.autoCompleteShow = false;
     }
 
     onSave(){
       this.isError = false;
+      this.errorMessage = "";
       this.isLoading = true;
+
       console.log(this.addVaccinationForm.value);
 
       if(!this.addVaccinationForm.valid){
@@ -91,12 +131,18 @@ export class AddVaccinationComponent implements OnInit {
           this.isLoading = false;
           return;
         }
+
         for(let control in this.addVaccinationForm.controls){
           this.addVaccinationForm.controls[control].markAllAsTouched();
-        }
+        }        
         this.isLoading = false;
       }else{
-        
+
+        if(!this.checkValidDateofSecondDose()){
+          this.isLoading = false;
+          return;
+        }
+
         let date = new Date();
 
         let req = this.administerVaccinationsService.addVaccinationDetails({
@@ -135,6 +181,7 @@ export class AddVaccinationComponent implements OnInit {
   ngOnInit(): void {
     this.patientsService.loadPatients();
     this.administerVaccinationsService.loadVaccinationDetails();
+    console.log(this.administerVaccinationsService.isLoadingData)
   }
 
 }

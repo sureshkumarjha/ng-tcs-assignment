@@ -8,7 +8,11 @@ import { END_POINT } from '../model/endpoint';
 })
 export class PatientsService {
   patients : any;
-  constructor(private httpClient : HttpClient) { }
+  isLoadingData : boolean;
+  constructor(private httpClient : HttpClient) {
+    this.isLoadingData = false;
+    this.patients = {};
+   }
 
   addPatient(patient : Patient){
     return this.httpClient.post(
@@ -16,16 +20,22 @@ export class PatientsService {
   }
 
   loadPatients(){
-    this.httpClient.get(`${END_POINT}/patients.json`).subscribe(
-      (value : any)=> { 
+    this.isLoadingData = true;
+    this.getPatients().subscribe(
+      (value : any)=> {
+        if(value === null){
+          this.isLoadingData = false;
+          return ;
+        } 
         this.patients = value;
         console.log(value);
+        this.isLoadingData = false;
       } 
     )
   }
 
   getPatients(){
-    return this.patients;
+    return this.httpClient.get(`${END_POINT}/patients.json`);
   }
 
   checkUniqueName(check : string ){
