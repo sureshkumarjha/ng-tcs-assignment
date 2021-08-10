@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Patient } from '../model/patient.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { END_POINT } from '../model/endpoint';
-
 @Injectable({
   providedIn: 'root'
 })
